@@ -28,4 +28,18 @@ router.post(
   userController.register
 );
 
+//ログイン用API
+router.post(
+  "/login",
+  body("username")
+    .isLength({ min: 8 })
+    .withMessage("user name must be more than 8letters"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("password must be more than 8letters"),
+  //validation関数を返す
+  validation.validate,
+  userController.login
+);
+
 module.exports = router;
