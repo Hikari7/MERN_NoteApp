@@ -44,7 +44,8 @@ router.post(
   userController.login
 );
 
-//JWT認証API(middlewareとして設定、これが通ったらreturnの200番を返す)
+//JWT認証API
+//(1./veiry-tokenのAPIが呼ばれる, 2.middlewareで認証チェック(nextに当たったら), 3.通ったらreturnの200番を返す)
 router.post("/verify-token", tokenHandler.verifyToken, (req, res) => {
   //200番だったらuserの情報を返す
   return res.status(200).json({ user: req.user });
