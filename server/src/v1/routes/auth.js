@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
+
 const User = require("../models/user");
 const validation = require("../middleware/validation");
 const userController = require("../controllers/user");
+const tokenHandler = require("../middleware/tokenHandler");
 
 //ユーザーの新規登録API
 router.post(
@@ -41,5 +43,12 @@ router.post(
   validation.validate,
   userController.login
 );
+
+//JWT認証API(middlewareとして設定、これが通ったらreturnの200番を返す)
+router.post("/verify-token", tokenHandler.verifyToken, (req, res) => {
+  //200番だったらuserの情報を返す
+  return res.status(200).json({ user: req.user });
+  //ここでPOST MAN使って既にあるユーザーIDで再度ログインできるか試すと良い("/verify-token"のパス使って)
+});
 
 module.exports = router;
