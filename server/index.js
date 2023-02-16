@@ -7,7 +7,7 @@ const cors = require("cors");
 //corsエラーを回避！！！
 app.use(
   cors({
-    origin: "http://localhost:8000",
+    origin: "http://localhost:5173",
   })
 );
 

@@ -64,11 +64,10 @@ const Register = () => {
       //サーバーのresの中のtokenを入れる
       localStorage.setItem("token", res.token);
       console.log("success!");
-      
     } catch (err) {
       console.log(err);
-      // const errors = err.data.errors;
-      // console.log(errors);
+      const errors = err.data.errors;
+      console.log(errors);
     }
   };
 
