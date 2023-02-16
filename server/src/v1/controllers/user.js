@@ -13,6 +13,7 @@ exports.register = async (req, res) => {
     const user = await User.create(req.body);
     //JWTの発行
     //各ユーザーごとに割り振られたMongoDBでに保存されているUserIDをもとにJWTを発行していく
+    //loginしているかの判断
     const token = jsonwebtoken.sign(
       { id: user._id },
       process.env.TOKEN_SECRET_KEY,

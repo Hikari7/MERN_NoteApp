@@ -39,7 +39,7 @@ router.post(
   body("password")
     .isLength({ min: 8 })
     .withMessage("password must be more than 8letters"),
-   
+
   //validation関数を返す
   validation.validate,
   userController.login

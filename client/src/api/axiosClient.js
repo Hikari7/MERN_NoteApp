@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8000/api/v1";
 
-//setItemで取得したlocalStorageの情報を取ってくる
+//setItemで取得したlocalStorageの情報(JWT)を取ってくる
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({
@@ -29,7 +29,8 @@ axiosClient.interceptors.request.use(async (config) => {
 //レスポンスの前処理
 axiosClient.interceptors.response.use(
   (response) => {
-    return response;
+    //data属性の中のtokenを取り出す
+    return response.data;
   },
   (err) => {
     throw err.response;
