@@ -1,4 +1,4 @@
-const JWT = require("jsonwebtoken");
+const jsonwebtoken = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 const User = require("../models/user");
 
@@ -13,9 +13,13 @@ exports.register = async (req, res) => {
     const user = await User.create(req.body);
     //JWTの発行
     //各ユーザーごとに割り振られたMongoDBでに保存されているUserIDをもとにJWTを発行していく
-    const token = JWT.sign({ id: user._id }, process.env.TOKEN_SECRET_KEY, {
-      expiresIn: "24h",
-    });
+    const token = jsonwebtoken.sign(
+      { id: user._id },
+      process.env.TOKEN_SECRET_KEY,
+      {
+        expiresIn: "24h",
+      }
+    );
     return res.status(200).json({ user, token });
   } catch (err) {
     return res.status(500).json(err);
@@ -54,12 +58,16 @@ exports.login = async (req, res) => {
     }
 
     //JWTを発行
-    const token = JWT.sign({ id: user._id }, process.env.TOKEN_SECRET_KEY, {
-      expiresIn: "24h",
-    });
+    const token = jsonwebtoken.sign(
+      { id: user._id },
+      process.env.TOKEN_SECRET_KEY,
+      {
+        expiresIn: "24h",
+      }
+    );
 
-    return res.status(201).json({ user, token });
+    res.status(200).json({ user, token });
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json(err);
   }
 };

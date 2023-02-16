@@ -14,7 +14,9 @@ const axiosClient = axios.create({
 //APIを叩く前に前処理(serverでも設定したauthorizationの形にしてserverに渡している)
 axiosClient.interceptors.request.use(async (config) => {
   return {
-    config,
+    //第二引数をカンマ区切りでかくと、その情報をconfigに入れ込むことができる
+    //スプレッド構文にしたconfigにすると、新しい↓にヘッダーを挿入できるようになる
+    ...config,
     headers: {
       //JSON形式にする設定
       "Content-Type": "application/json",
