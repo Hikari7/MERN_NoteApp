@@ -1,10 +1,26 @@
 import { Box } from "@mui/material";
 import { Container } from "@mui/system";
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import notionLogo from "../../assets/images/notion-logo.png";
+import authUtils from "../../utils/authUtils";
 
+//tokenをチェックするロジックを組む
 const AuthLayout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    //JWTを持っているのか確認する
+    const checkAuth = async () => {
+      //JWT認証チェック
+      const isAuth = await authUtils.isAuthenticated();
+      if (isAuth) {
+        navigate("/");
+      }
+    };
+    checkAuth();
+    //page遷移するたびに発火するようにする
+  }, [navigate]);
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -23,6 +39,7 @@ const AuthLayout = () => {
           />
           Notion clone
         </Box>
+        {/* 認証関係のコンポーネントを全て含んでいる共通のコンポーネント */}
         <Outlet />
       </Container>
     </>
