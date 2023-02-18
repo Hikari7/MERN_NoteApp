@@ -1,7 +1,6 @@
 const Memo = require("../models/memo");
 
 //APIの作成
-
 exports.create = async (req, res) => {
   try {
     //memoの個数をカウントできる
