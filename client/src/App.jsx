@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
+import Home from "./pages/Home";
+import AppLayout from "./components/layout/AppLayout";
 
 function App() {
   const theme = createTheme({
@@ -20,6 +22,11 @@ function App() {
           <Route path="/" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+          </Route>
+          <Route path="/" element={<AppLayout />}>
+            {/* 親のルートと同じ意味になる　 */}
+            <Route index element={<Home />} />
+            <Route path="memo" element={<Home />} />
           </Route>
         </Routes>
       </BrowserRouter>
