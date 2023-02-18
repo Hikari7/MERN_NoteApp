@@ -12,9 +12,12 @@ import AddIcon from "@mui/icons-material/Add";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import assets from "../../../assets";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  //useSelectorで取り出していく
+  const user = useSelector((state) => state.user.value);
 
   const logout = () => {
     //tokenのkeyを取り外す必要がある
@@ -22,6 +25,7 @@ const Sidebar = () => {
     navigate("/login");
   };
 
+  console.log(user);
   return (
     <Drawer
       container={window.document.body}
@@ -47,7 +51,7 @@ const Sidebar = () => {
             }}
           >
             <Typography variant="body2" fontWeight="700">
-              hikari
+              {user.username}
             </Typography>
             <IconButton onClick={logout}>
               <LogoutIcon />
