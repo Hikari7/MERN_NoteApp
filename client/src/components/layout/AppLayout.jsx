@@ -18,6 +18,7 @@ const AppLayout = () => {
       if (!user) {
         navigate("/login");
       } else {
+        //ユーザーが存在した場合
         //ユーザーを保存する(dispatchでsetUerを更新するように通知する、これがグローバルで使えるようになる)
         dispatch(setUser(user));
       }

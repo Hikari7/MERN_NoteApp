@@ -2,6 +2,8 @@ const jsonwebtoken = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 const User = require("../models/user");
 
+//APIを作成！！
+
 //新規登録用API
 exports.register = async (req, res) => {
   //receive the pw

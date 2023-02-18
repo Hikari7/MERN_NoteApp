@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//何もuserが存在しない状態
+//初期状態は何もuserが存在しない状態
 const initialState = { value: {} };
 
 export const userSlice = createSlice({

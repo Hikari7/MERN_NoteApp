@@ -13,6 +13,7 @@ import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import assets from "../../../assets";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -93,6 +94,9 @@ const Sidebar = () => {
               <AddIcon fontSize="small" />
             </IconButton>
           </Box>
+        </ListItemButton>
+        <ListItemButton sx={{ pl: "20px" }} compoenet={Link} to="/memo/test">
+          <Typography>📝無題</Typography>
         </ListItemButton>
       </List>
     </Drawer>
