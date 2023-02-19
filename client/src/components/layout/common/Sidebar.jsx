@@ -9,16 +9,25 @@ import {
 import { Box } from "@mui/system";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
+// import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import assets from "../../../assets";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import memoApi from "../../../api/memoApi";
+import { setMemo } from "../../../redux/features/memoSlice";
 
 const Sidebar = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  //固有のmemoを取り出していく
+  //useParams: react-router-domのHooksでURLのパラメーターに含まれているメモIDを取り出すことができる
+  const { memoId } = useParams();
   //useSelectorで取り出していく
   const user = useSelector((state) => state.user.value);
+  const memos = useSelector((state) => state.memo.value);
 
   const logout = () => {
     //tokenのkeyを取り外す必要がある
@@ -26,7 +35,31 @@ const Sidebar = () => {
     navigate("/login");
   };
 
-  console.log(user);
+  useEffect(() => {
+    //asyncを取得するために関数を作る
+    const getMemos = async () => {
+      try {
+        //memoApiからメモをゲットするAPIを呼ぶ
+        const res = await memoApi.getAll();
+        //メモもグローバルで保存したいのでReduxで管理していく
+        dispatch(setMemo(res));
+        console.log(res);
+      } catch (err) {
+        alert(err);
+      }
+    };
+    getMemos();
+    //dispatchが発火すると同時にuseEffectも発火する(更新がされる->memoが作られる度)
+  }, [dispatch]);
+
+  useEffect(() => {
+    //findIndex:引数に指定したコールバック関数の中で定義した条件式を満たす要素を配列の先頭から検索する
+    //クリックしたものがmemoIdを等しければ、それをtrueにしてactiveIndexの中に格納している
+    const activeIndex = memos.findIndex((e) => e._id === memoId);
+    setActiveIndex(activeIndex);
+  }, [navigate]);
+
+  // console.log(user);
   return (
     <Drawer
       container={window.document.body}
@@ -95,9 +128,21 @@ const Sidebar = () => {
             </IconButton>
           </Box>
         </ListItemButton>
-        <ListItemButton sx={{ pl: "20px" }} compoenet={Link} to="/memo/test">
-          <Typography>📝無題</Typography>
-        </ListItemButton>
+
+        {memos.map((item, index) => (
+          <ListItemButton
+            sx={{ pl: "20px" }}
+            compoenet={Link}
+            to={`/memo/${item._id}`}
+            key={item._id}
+            //選ばれているのがハイライトされる
+            selected={index === activeIndex}
+          >
+            <Typography>
+              {item.icon} {item.title}
+            </Typography>
+          </ListItemButton>
+        ))}
       </List>
     </Drawer>
   );

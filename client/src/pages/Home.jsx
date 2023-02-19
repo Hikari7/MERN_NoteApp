@@ -13,6 +13,7 @@ const Home = () => {
     //API叩くときは基本try catch文
     try {
       setLoading(true);
+      //memoを作る関数create()を呼ぶ
       const res = await memoApi.create();
       console.log(res);
       //memo固有のIDに遷移してあげる

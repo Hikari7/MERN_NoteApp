@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:8000/api/v1";
 //setItemで取得したlocalStorageの情報(JWT)を取ってくる
 const getToken = () => localStorage.getItem("token");
 
+//axios.create()でインスタンスを作成
 const axiosClient = axios.create({
   baseURL: BASE_URL,
 });
@@ -18,7 +19,7 @@ axiosClient.interceptors.request.use(async (config) => {
     //スプレッド構文にしたconfigにすると、新しい↓にヘッダーを挿入できるようになる
     ...config,
     headers: {
-      //JSON形式にする設定
+      //JSON形式にする設定(MIMEタイプ)
       "Content-Type": "application/json",
       //サーバーに渡す前にJWTをリクエストして設定する必要がある(
       authorization: `Bearer ${getToken()}`, //リクエストヘッダーにJWTをつけてサーバーに渡す

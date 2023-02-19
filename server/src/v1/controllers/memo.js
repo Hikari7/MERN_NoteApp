@@ -17,3 +17,15 @@ exports.create = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+//メモを取り出しAPI
+exports.getAll = async (req, res) => {
+  try {
+    //今ログインしているUserの目を全て取り出す
+    //positionの順番で
+    const memos = await Memo.find({ user: req.user._id }).sort("-position");
+    res.status(200).json(memos);
+  } catch {
+    res.status(500).json(err);
+  }
+};

@@ -6,6 +6,8 @@ const validation = require("../middleware/validation");
 const userController = require("../controllers/user");
 const tokenHandler = require("../middleware/tokenHandler");
 
+//ファイルを分けるときにrouterのプロパティを使っていくっぽい
+
 //ユーザーの新規登録API
 router.post(
   "/register",

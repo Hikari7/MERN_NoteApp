@@ -55,11 +55,12 @@ const Register = () => {
 
     setLoading(true);
 
-    //新規登録APIを叩く
+    //新規登録APIを叩く(ここでPOSTしてバックエンドのAPIにPOSTしている)
     try {
       //suthApiのparamsをここでいれる(bodyに挿入される→serverに渡されて暗号化されたり)
       const res = await authApi.register({
         //ここがbackendのreq.bodyに相当する
+
         username,
         password,
         confirmPassword,
