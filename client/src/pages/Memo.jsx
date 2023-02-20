@@ -119,6 +119,14 @@ const Memo = () => {
     }
   };
 
+  const createTitle = () => {
+    if (title === "Untitled") setTitle("");
+  };
+
+  const createDescription = () => {
+    if (description === "Start writing here...") setDescription("");
+  };
+
   return (
     <>
       <Box
@@ -140,6 +148,7 @@ const Memo = () => {
         <Box>
           <EmojiPicker icon={icon} onChange={onIconChange} />
           <TextField
+            onClick={createTitle}
             onChange={updateTitle}
             value={title}
             placeholder="Untitled"
@@ -152,9 +161,10 @@ const Memo = () => {
             }}
           />
           <TextField
+            onClick={createDescription}
             onChange={updateDescription}
             value={description}
-            placeholder="add new"
+            placeholder="Start writing here..."
             variant="outlined"
             fullWidth
             sx={{
