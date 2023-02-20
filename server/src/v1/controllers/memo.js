@@ -63,3 +63,16 @@ exports.update = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+exports.delete = async (req, res) => {
+  const { memoId } = req.params;
+  try {
+    const deletedMemo = await Memo.deleteOne({
+      _id: memoId,
+    });
+    console.log(deletedMemo);
+    res.status(200).json("successful to delete the memo");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

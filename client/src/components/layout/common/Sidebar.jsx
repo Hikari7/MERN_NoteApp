@@ -60,6 +60,21 @@ const Sidebar = () => {
     setActiveIndex(activeIndex);
   }, []);
 
+  const addMemo = async () => {
+    try {
+      //メモを作成
+      const res = await memoApi.create();
+      //resを今までのmemoにさらに追加していく
+      const newMemos = [res, ...memos];
+      //新しいmemosをグローバルで管理していく
+      dispatch(setMemo(newMemos));
+      //で、追加したメモにリダイレクトする
+      navigate(`memo/${res._id}`);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   // console.log(user);
   return (
     <Drawer
@@ -124,7 +139,7 @@ const Sidebar = () => {
             <Typography variant="body2" fontWeight="700">
               Private
             </Typography>
-            <IconButton>
+            <IconButton onClick={() => addMemo()}>
               <AddIcon fontSize="small" />
             </IconButton>
           </Box>

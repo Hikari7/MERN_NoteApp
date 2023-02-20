@@ -19,4 +19,7 @@ router.get("/:memoId", tokenHandler.verifyToken, memoController.getOne);
 //1つのメモの更新API(更新だからput関数！)
 router.put("/:memoId", tokenHandler.verifyToken, memoController.update);
 
+//1つのメモの削除API(削除だからdelete関数！)
+router.delete("/:memoId", tokenHandler.verifyToken, memoController.delete);
+
 module.exports = router;

@@ -4,13 +4,20 @@ import React from "react";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import memoApi from "../api/memoApi";
+import { legacy_createStore } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { setMemo } from "../redux/features/memoSlice";
 
 const Memo = () => {
   const { memoId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const memos = useSelector((state) => state.memo.value);
 
   useEffect(
     () => {
@@ -67,6 +74,29 @@ const Memo = () => {
     }, timeout);
   };
 
+  const deleteMemo = async () => {
+    try {
+      const deletedMemo = await memoApi.delete(memoId);
+      console.log(deletedMemo);
+
+      //メモを削除した分、全体のメモの数を減らさないといけない
+      const newMemos = memos.filter((e) => e._id !== memoId);
+
+      //メモを削除したら、pathが迷子になるのでredirect先のpathを指定してあげる
+      //メモがなかった場合、新規作成画面に
+      if (newMemos.length === 0) {
+        navigate("/memo");
+      } else {
+        //一番上のメモに遷移
+        navigate(`/memo/${newMemos[0]._id}`);
+      }
+      //そして、その最新のメモたちをReduxを用いてグローバル規模で更新する
+      dispatch(setMemo(newMemos));
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
     <>
       <Box
@@ -80,7 +110,7 @@ const Memo = () => {
         <IconButton>
           <StarOutlineIcon />
         </IconButton>
-        <IconButton caritant="outlined" color="error">
+        <IconButton caritant="outlined" color="error" onClick={deleteMemo}>
           <DeleteOutlineIcon />
         </IconButton>
       </Box>
