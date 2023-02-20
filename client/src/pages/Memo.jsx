@@ -9,11 +9,13 @@ import memoApi from "../api/memoApi";
 import { legacy_createStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
+import EmojiPicker from "../components/layout/common/EmojiPicker";
 
 const Memo = () => {
   const { memoId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [icon, setIcon] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,10 +26,12 @@ const Memo = () => {
       const getMemo = async () => {
         try {
           console.log(memoId);
+          //memoの中に入っているものを取得
           const res = await memoApi.getOne(memoId);
           // console.log(res);
           setTitle(res.title);
           setDescription(res.description);
+          setIcon(res.icon);
         } catch (err) {
           alert(err);
         }
@@ -90,8 +94,26 @@ const Memo = () => {
         //一番上のメモに遷移
         navigate(`/memo/${newMemos[0]._id}`);
       }
-      //そして、その最新のメモたちをReduxを用いてグローバル規模で更新する
+      //and then, その最新のメモたちをReduxを用いてグローバル規模で更新する
       dispatch(setMemo(newMemos));
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onIconChange = async (newIcon) => {
+    //memosを一時的にコピーしてそれを修正していく(直接データいじるのは良くないから)
+    let temp = [...memos];
+    //選択されたメモを取り出す
+    const index = temp.findIndex((e) => e._id === memoId);
+    //選択した絵文字を今現在の選択していメモのアイコンフィールドに追加する
+    temp[index] = { ...temp[index], icon: newIcon };
+    setIcon(newIcon);
+
+    //更新のAPIを叩いて、newIconに上書きする
+    dispatch(setMemo(temp));
+    try {
+      await memoApi.update(memoId, { icon: newIcon });
     } catch (err) {
       alert(err);
     }
@@ -115,30 +137,33 @@ const Memo = () => {
         </IconButton>
       </Box>
       <Box sx={{ padding: "10px 50px" }}>
-        <TextField
-          onChange={updateTitle}
-          value={title}
-          placeholder="Untitled"
-          variant="outlined"
-          fullWidth
-          sx={{
-            ".MuiOutlinedInput-input": { padding: 0 },
-            ".MuiOutlinedInput-notchedOutline": { border: "none" },
-            ".MuiOutlinedInput-root": { fontSize: "2rem", fontWeight: 700 },
-          }}
-        />
-        <TextField
-          onChange={updateDescription}
-          value={description}
-          placeholder="add new"
-          variant="outlined"
-          fullWidth
-          sx={{
-            ".MuiOutlinedInput-input": { padding: 0 },
-            ".MuiOutlinedInput-notchedOutline": { border: "none" },
-            ".MuiOutlinedInput-root": { fontSize: "1rem", fontWeight: 700 },
-          }}
-        />
+        <Box>
+          <EmojiPicker icon={icon} onChange={onIconChange} />
+          <TextField
+            onChange={updateTitle}
+            value={title}
+            placeholder="Untitled"
+            variant="outlined"
+            fullWidth
+            sx={{
+              ".MuiOutlinedInput-input": { padding: 0 },
+              ".MuiOutlinedInput-notchedOutline": { border: "none" },
+              ".MuiOutlinedInput-root": { fontSize: "2rem", fontWeight: 700 },
+            }}
+          />
+          <TextField
+            onChange={updateDescription}
+            value={description}
+            placeholder="add new"
+            variant="outlined"
+            fullWidth
+            sx={{
+              ".MuiOutlinedInput-input": { padding: 0 },
+              ".MuiOutlinedInput-notchedOutline": { border: "none" },
+              ".MuiOutlinedInput-root": { fontSize: "1rem", fontWeight: 700 },
+            }}
+          />
+        </Box>
       </Box>
     </>
   );
