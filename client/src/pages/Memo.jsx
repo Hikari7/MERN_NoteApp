@@ -31,6 +31,42 @@ const Memo = () => {
     [memoId]
   );
 
+  let timer;
+  const timeout = 500;
+
+  const updateTitle = async (e) => {
+    //0.5秒よりも少なかったらclearTimeoutになるのでAPIが呼ばれなくなる
+    clearTimeout(timer);
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+
+    timer = setTimeout(async () => {
+      try {
+        //memoAPIの第一引数、第二引数は取得したい値に合わせる
+        await memoApi.update(memoId, { title: newTitle });
+      } catch (err) {
+        alert(err);
+      }
+      //500ミリ秒で呼ばれる
+    }, timeout);
+  };
+  const updateDescription = async (e) => {
+    //0.5秒よりも少なかったらclearTimeoutになるのでAPIが呼ばれなくなる
+    clearTimeout(timer);
+    const newDescription = e.target.value;
+    setDescription(newDescription);
+
+    timer = setTimeout(async () => {
+      try {
+        //memoAPIの第一引数、第二引数は取得したい値に合わせる
+        await memoApi.update(memoId, { description: newDescription });
+      } catch (err) {
+        alert(err);
+      }
+      //500ミリ秒で呼ばれる
+    }, timeout);
+  };
+
   return (
     <>
       <Box
@@ -50,6 +86,7 @@ const Memo = () => {
       </Box>
       <Box sx={{ padding: "10px 50px" }}>
         <TextField
+          onChange={updateTitle}
           value={title}
           placeholder="Untitled"
           variant="outlined"
@@ -61,6 +98,7 @@ const Memo = () => {
           }}
         />
         <TextField
+          onChange={updateDescription}
           value={description}
           placeholder="add new"
           variant="outlined"

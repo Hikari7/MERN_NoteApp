@@ -41,3 +41,25 @@ exports.getOne = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+//メモ編集API
+exports.update = async (req, res) => {
+  const { memoId } = req.params;
+  const { title, description } = req.body;
+
+  try {
+    if (title === "") req.body.title = "untitled";
+    if (description === "") req.body.description = "write your memo";
+
+    const memo = await Memo.findOne({ user: req.user._id, _id: memoId });
+    if (!memo) return res.status(404).json("any memo is not created yet");
+
+    const updatedMemo = await Memo.findByIdAndUpdate(memoId, {
+      //$set: 色んなプロパティを含めるよ〜
+      $set: req.body,
+    });
+    res.status(200).json(updatedMemo);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
