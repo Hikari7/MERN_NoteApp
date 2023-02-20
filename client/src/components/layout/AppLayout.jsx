@@ -28,12 +28,13 @@ const AppLayout = () => {
   }, [navigate]);
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1, p: 1, width: "max-content" }}>
-          {/* Outletを入れることでApp.jsxのRoute内に適用することができる */}
-          <Outlet />
-        </Box>
+      {/* <Box sx={{ display: "flex" }}> */}
+      <Box>
+        {/* <Sidebar /> */}
+        {/* <Box sx={{ flexGrow: 1, p: 1, width: "max-content" }}> */}
+        {/* Outletを入れることでApp.jsxのRoute内に適用することができる */}
+        <Outlet />
+        {/* </Box> */}
       </Box>
     </>
   );

@@ -28,7 +28,6 @@ function App() {
             {/* 親のルートと同じ意味になる　 */}
             <Route index element={<Home />} />
             <Route path="memo" element={<Home />} />
-
             <Route path="memo/:memoId" element={<Memo />} />
           </Route>
         </Routes>

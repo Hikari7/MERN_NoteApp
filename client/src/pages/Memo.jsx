@@ -1,4 +1,4 @@
-import { IconButton, TextField } from "@mui/material";
+import { Button, IconButton, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -10,12 +10,15 @@ import { legacy_createStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
 import EmojiPicker from "../components/layout/common/EmojiPicker";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import Sidebar from "../components/layout/common/Sidebar";
 
 const Memo = () => {
   const { memoId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,10 +48,19 @@ const Memo = () => {
   let timer;
   const timeout = 500;
 
+  const createTitle = () => {
+    if (title === "Untitled") setTitle("");
+  };
+
+  const createDescription = () => {
+    if (description === "Start writing here...") setDescription("");
+  };
+
   const updateTitle = async (e) => {
     //0.5秒よりも少なかったらclearTimeoutになるのでAPIが呼ばれなくなる
     clearTimeout(timer);
     const newTitle = e.target.value;
+
     setTitle(newTitle);
 
     timer = setTimeout(async () => {
@@ -61,8 +73,10 @@ const Memo = () => {
       //500ミリ秒で呼ばれる
     }, timeout);
   };
+
   const updateDescription = async (e) => {
     //0.5秒よりも少なかったらclearTimeoutになるのでAPIが呼ばれなくなる
+
     clearTimeout(timer);
     const newDescription = e.target.value;
     setDescription(newDescription);
@@ -119,6 +133,10 @@ const Memo = () => {
     }
   };
 
+  const toggleDrawer = () => {
+    setOpenDrawer(!openDrawer);
+  };
+
   return (
     <>
       <Box
@@ -129,6 +147,13 @@ const Memo = () => {
           width: "100%",
         }}
       >
+        <Box>
+          <Button onClick={toggleDrawer}>
+            <MenuOpenIcon />
+          </Button>
+          {openDrawer && <Sidebar />}
+        </Box>
+
         <IconButton>
           <StarOutlineIcon />
         </IconButton>
@@ -140,6 +165,7 @@ const Memo = () => {
         <Box>
           <EmojiPicker icon={icon} onChange={onIconChange} />
           <TextField
+            onClick={createTitle}
             onChange={updateTitle}
             value={title}
             placeholder="Untitled"
@@ -152,9 +178,10 @@ const Memo = () => {
             }}
           />
           <TextField
+            onClick={createDescription}
             onChange={updateDescription}
             value={description}
-            placeholder="add new"
+            placeholder="Start writing here..."
             variant="outlined"
             fullWidth
             sx={{
