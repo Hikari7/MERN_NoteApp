@@ -12,4 +12,8 @@ router.post("/", tokenHandler.verifyToken, memoController.create);
 // define the "/" page route
 router.get("/", tokenHandler.verifyToken, memoController.getAll);
 
+//1つのメモの取り出しAPI
+// define the "/" page route
+router.get("/:memoId", tokenHandler.verifyToken, memoController.getOne);
+
 module.exports = router;

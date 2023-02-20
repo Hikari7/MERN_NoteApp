@@ -22,10 +22,22 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     //今ログインしているUserの目を全て取り出す
-    //positionの順番で
+    //positionの順番でソートしていく
     const memos = await Memo.find({ user: req.user._id }).sort("-position");
     res.status(200).json(memos);
   } catch {
+    res.status(500).json(err);
+  }
+};
+
+//1つのメモの取り出しAPI
+exports.getOne = async (req, res) => {
+  const { memoId } = req.params;
+  try {
+    const memo = await Memo.findOne({ user: req.user._id, _id: memoId });
+    if (!memo) return res.status(404).json("any memo is not created yet");
+    res.status(200).json(memo);
+  } catch (err) {
     res.status(500).json(err);
   }
 };

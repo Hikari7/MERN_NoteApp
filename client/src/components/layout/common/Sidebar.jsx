@@ -49,6 +49,7 @@ const Sidebar = () => {
       }
     };
     getMemos();
+
     //dispatchが発火すると同時にuseEffectも発火する(更新がされる->memoが作られる度)
   }, [dispatch]);
 
@@ -57,7 +58,7 @@ const Sidebar = () => {
     //クリックしたものがmemoIdを等しければ、それをtrueにしてactiveIndexの中に格納している
     const activeIndex = memos.findIndex((e) => e._id === memoId);
     setActiveIndex(activeIndex);
-  }, [navigate]);
+  }, []);
 
   // console.log(user);
   return (
@@ -137,6 +138,10 @@ const Sidebar = () => {
             key={item._id}
             //選ばれているのがハイライトされる
             selected={index === activeIndex}
+            // selected={activeIndex}
+            // onChange={() => {
+            //   setActiveIndex(!activeIndex);
+            // }}
           >
             <Typography>
               {item.icon} {item.title}
