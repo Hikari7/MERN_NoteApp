@@ -6,6 +6,8 @@ import {
   Typography,
   IconButton,
   Button,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -19,6 +21,9 @@ import { useEffect, useState } from "react";
 import memoApi from "../../../api/memoApi";
 import { setMemo } from "../../../redux/features/memoSlice";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import MenuOpen from "@mui/icons-material/MenuOpen";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -33,8 +38,14 @@ const Sidebar = () => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+  // const toggleDrawer = () => {
+  //   setDrawerOpen(!drawerOpen);
+  // };
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
   };
 
   const logout = () => {
@@ -86,98 +97,118 @@ const Sidebar = () => {
   // console.log(user);
   return (
     <>
-      <Button onClick={toggleDrawer}>
-        <KeyboardDoubleArrowLeftIcon />
-      </Button>
-      <Drawer
-        container={window.document.body}
-        variant="temporary"
-        open={drawerOpen}
-        onClose={toggleDrawer}
-        sx={{ width: 250, height: "100vh" }}
-      >
-        <List
-          sx={{
-            width: 250,
-            height: "100vh",
-            backgroundColor: assets.colors.secondary,
-          }}
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <IconButton
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(drawerOpen && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ marginLeft: "auto" }}
+            >
+              {user.username}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          container={window.document.body}
+          variant="temporary"
+          anchor="left"
+          open={drawerOpen}
+          sx={{ width: 250, height: "100vh" }}
         >
-          <Box sx={{ paddingTop: "10px" }}></Box>
-          <ListItemButton>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="body2" fontWeight="700">
-                {user.username}
-              </Typography>
-              <IconButton onClick={logout}>
-                <LogoutIcon />
+          <List
+            sx={{
+              width: 250,
+              height: "100vh",
+              // backgroundColor: assets.colors.secondary,
+            }}
+          >
+            <ListItemButton>
+              <IconButton onClick={handleDrawerClose}>
+                <KeyboardDoubleArrowLeftIcon />
               </IconButton>
-            </Box>
-          </ListItemButton>
-          <Box sx={{ paddingTop: "10px" }}></Box>
-          <ListItemButton>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="body2" fontWeight="700">
-                Favorite
-              </Typography>
-              {/* <IconButton>
-              <StarOutlineIcon fontSize="small" />
-            </IconButton> */}
-            </Box>
-          </ListItemButton>
-          <Box sx={{ paddingTop: "10px" }}></Box>
-          <ListItemButton>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="body2" fontWeight="700">
-                Private
-              </Typography>
-              <IconButton onClick={() => addMemo()}>
-                <AddIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </ListItemButton>
-
-          {memos.map((item, index) => (
-            <ListItemButton
-              sx={{ pl: "20px" }}
-              compoenet={Link}
-              to={`/memo/${item._id}`}
-              key={item._id}
-              //選ばれているのがハイライトされる
-              selected={index === activeIndex}
-              // selected={activeIndex}
-              // onChange={() => {
-              //   setActiveIndex(!activeIndex);
-              // }}
-            >
-              <Typography>
-                {item.icon} {item.title}
-              </Typography>
             </ListItemButton>
-          ))}
-        </List>
-      </Drawer>
+            <ListItemButton>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body2" fontWeight="700">
+                  {user.username}
+                </Typography>
+                <IconButton onClick={logout}>
+                  <LogoutIcon />
+                </IconButton>
+              </Box>
+            </ListItemButton>
+
+            <Box sx={{ paddingTop: "10px" }}></Box>
+            <ListItemButton>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body2" fontWeight="700">
+                  Favorite
+                </Typography>
+              </Box>
+            </ListItemButton>
+            <Box sx={{ paddingTop: "10px" }}></Box>
+            <ListItemButton>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body2" fontWeight="700">
+                  Your memo
+                </Typography>
+                <IconButton onClick={() => addMemo()}>
+                  <AddIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            </ListItemButton>
+
+            {memos.map((item, index) => (
+              <ListItemButton
+                sx={{ pl: "20px" }}
+                compoenet={Link}
+                to={`/memo/${item._id}`}
+                key={item._id}
+                //選ばれているのがハイライトされる
+                selected={index === activeIndex}
+                // selected={activeIndex}
+                // onChange={() => {
+                //   setActiveIndex(!activeIndex);
+                // }}
+              >
+                <Typography>
+                  {item.icon} {item.title}
+                </Typography>
+              </ListItemButton>
+            ))}
+          </List>
+        </Drawer>
+      </Box>
     </>
   );
 };

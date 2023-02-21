@@ -133,8 +133,8 @@ const Memo = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-
           width: "100%",
+          marginTop:"200px"
         }}
       >
         <IconButton>
@@ -144,7 +144,7 @@ const Memo = () => {
           <DeleteOutlineIcon />
         </IconButton>
       </Box>
-      <Box sx={{ padding: "10px 50px" }}>
+      <Box sx={{ padding: "10px 50px", margin:"100px" }}>
         <Box>
           <EmojiPicker icon={icon} onChange={onIconChange} />
           <TextField

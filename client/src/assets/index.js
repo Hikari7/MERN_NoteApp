@@ -1,8 +1,3 @@
-const assets = {
-  colors: {
-    secondary: "#f7f7f7",
-    
-  },
-};
-
-export default assets;
+import { createGlobalStyle } from "styled-components";
+export default createGlobalStyle`@import url("https://fonts.googleapis.com/css?family=Ubuntu+Condensed&display=swap");
+`;

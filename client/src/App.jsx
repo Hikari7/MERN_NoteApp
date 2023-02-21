@@ -3,20 +3,18 @@ import Login from "./pages/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/layout/AuthLayout";
 import Register from "./pages/Register";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { blue, blueGrey } from "@mui/material/colors";
+import theme from "../src/assets/Theme";
 import Home from "./pages/Home";
 import AppLayout from "./components/layout/AppLayout";
 import Memo from "./pages/Memo";
+import GlobalStyles from "../src/assets/index";
 
 function App() {
-  const theme = createTheme({
-    palette: { primary: blueGrey },
-  });
-
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <CssBaseline />
       <BrowserRouter>
         <Routes>

@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import notionLogo from "../../assets/images/notion-logo.png";
+import noteIcon from "../../assets/images/noteIcon.png";
 import authUtils from "../../utils/authUtils";
 
 //tokenをチェックするロジックを組む
@@ -32,13 +32,17 @@ const AuthLayout = () => {
             flexDirection: "column",
           }}
         >
+          <Typography variant="h3" sx={{ margin: 3 }}>
+            Memo me!
+          </Typography>
+
           <img
-            src={notionLogo}
+            src={noteIcon}
             alt=""
             style={{ width: 100, height: 100, marginBottom: 3 }}
           />
-          Notion clone
         </Box>
+
         {/* 認証関係のコンポーネントを全て含んでいる共通のコンポーネント */}
         <Outlet />
       </Container>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import React from "react";
 import { LoadingButton } from "@mui/lab";
 import { Link, useNavigate } from "react-router-dom";
@@ -111,8 +111,9 @@ const Login = () => {
           Log in
         </LoadingButton>
       </Box>
+      <Typography>You don't have your account yet? </Typography>
       <Button component={Link} to="/register" sx={{ textTransform: "none" }}>
-        You don't have your account yet? Sign up
+        Sign up
       </Button>
     </>
   );
