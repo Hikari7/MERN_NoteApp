@@ -9,12 +9,10 @@ import theme from "../src/assets/Theme";
 import Home from "./pages/Home";
 import AppLayout from "./components/layout/AppLayout";
 import Memo from "./pages/Memo";
-import GlobalStyles from "../src/assets/index";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
       <CssBaseline />
       <BrowserRouter>
         <Routes>

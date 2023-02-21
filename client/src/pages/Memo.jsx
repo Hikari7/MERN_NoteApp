@@ -1,4 +1,13 @@
-import { TextField } from "@mui/material";
+import {
+  Alert,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -9,12 +18,14 @@ import memoApi from "../api/memoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
 import EmojiPicker from "../components/layout/common/EmojiPicker";
+import { ToastContainer, toast } from "react-toastify";
 
 const Memo = () => {
   const { memoId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState();
+  const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -77,8 +88,22 @@ const Memo = () => {
     }, timeout);
   };
 
+  const handleClickOpen = () => {
+    setShowAlert(true);
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
+  // const notify = () => toast.success("Wow so easy!");
+  function notify() {
+    toast.success("Wow so easy!");
+  }
+
   const deleteMemo = async () => {
     try {
+      setShowAlert(true);
       const deletedMemo = await memoApi.delete(memoId);
       console.log(deletedMemo);
 
@@ -95,6 +120,7 @@ const Memo = () => {
       }
       //and then, その最新のメモたちをReduxを用いてグローバル規模で更新する
       dispatch(setMemo(newMemos));
+      notify();
     } catch (err) {
       alert(err);
     }
@@ -168,11 +194,41 @@ const Memo = () => {
                   },
                 }}
               />
-
+              {showAlert && (
+                <Dialog
+                  open={showAlert}
+                  onClose={handleCloseAlert}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Confirm delete"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure you want to delete the note?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseAlert} size="small">
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={deleteMemo}
+                      autoFocus
+                      color="error"
+                      size="small"
+                    >
+                      Delete
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              )}
+    
               <DeleteOutlineIcon
                 caritant="outlined"
                 color="error"
-                onClick={deleteMemo}
+                onClick={handleClickOpen}
                 sx={{
                   display: "block",
                   marginLeft: 2,
@@ -184,6 +240,7 @@ const Memo = () => {
               />
             </Box>
           </Box>
+
           <TextField
             onClick={createTitle}
             onChange={updateTitle}
