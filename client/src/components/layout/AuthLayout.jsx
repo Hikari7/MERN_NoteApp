@@ -36,7 +36,7 @@ const AuthLayout = () => {
             variant="h3"
             sx={{ marginY: 3, fontFamily: "Zilla Slab" }}
           >
-            Memo App
+            Note App
           </Typography>
 
           <img
