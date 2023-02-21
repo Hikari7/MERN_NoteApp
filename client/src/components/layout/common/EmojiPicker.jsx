@@ -35,7 +35,7 @@ const EmojiPicker = (props) => {
   return (
     <Box>
       <Typography
-        variant="h3"
+        variant="h2"
         fontWeight="700"
         sx={{ cursor: "pointer" }}
         onClick={showPicker}

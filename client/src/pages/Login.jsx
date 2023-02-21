@@ -4,6 +4,7 @@ import React from "react";
 import { LoadingButton } from "@mui/lab";
 import { Link, useNavigate } from "react-router-dom";
 import authApi from "../api/authApi";
+import { palette } from "@mui/system";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -111,10 +112,24 @@ const Login = () => {
           Log in
         </LoadingButton>
       </Box>
-      <Typography>You don't have your account yet? </Typography>
-      <Button component={Link} to="/register" sx={{ textTransform: "none" }}>
-        Sign up
-      </Button>
+      <Box sx={{ display: "flex" }}>
+        <Typography sx={{ fontSize: "14px" }}>
+          You don't have an account yet?{" "}
+        </Typography>
+        <Typography
+          component={Link}
+          to="/register"
+          sx={{
+            textTransform: "none",
+            color: palette.primary,
+            textDecoration: "none",
+            fontSize: "14px",
+            marginLeft: "14px",
+          }}
+        >
+          Sign up
+        </Typography>
+      </Box>
     </>
   );
 };

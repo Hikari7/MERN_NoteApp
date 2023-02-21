@@ -32,14 +32,17 @@ const AuthLayout = () => {
             flexDirection: "column",
           }}
         >
-          <Typography variant="h3" sx={{ margin: 3 }}>
-            Memo me!
+          <Typography
+            variant="h3"
+            sx={{ marginY: 3, fontFamily: "Zilla Slab" }}
+          >
+            Memo App
           </Typography>
 
           <img
             src={noteIcon}
             alt=""
-            style={{ width: 100, height: 100, marginBottom: 3 }}
+            style={{ width: 100, height: 100, marginBottom: 5 }}
           />
         </Box>
 

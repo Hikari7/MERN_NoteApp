@@ -19,6 +19,7 @@ const Home = () => {
       //memo固有のIDに遷移してあげる
       navigate(`/memo/${res._id}`);
     } catch (err) {
+      console.log("err?");
       alert(err);
     } finally {
       //finally: tryに行ってもcatchに行っても実行される
@@ -29,7 +30,7 @@ const Home = () => {
   return (
     <Box
       sx={{
-        height: "100%",
+        height: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

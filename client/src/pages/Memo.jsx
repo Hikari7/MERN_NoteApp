@@ -1,4 +1,4 @@
-import { IconButton, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -6,7 +6,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import memoApi from "../api/memoApi";
-import { legacy_createStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
 import EmojiPicker from "../components/layout/common/EmojiPicker";
@@ -132,21 +131,59 @@ const Memo = () => {
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
-          width: "100%",
-          marginTop:"200px"
+          width: "78%",
+          height: "80vh",
+          marginTop: "10vh",
+          marginX: "auto",
+          justifyContent: "center",
         }}
       >
-        <IconButton>
-          <StarOutlineIcon />
-        </IconButton>
-        <IconButton caritant="outlined" color="error" onClick={deleteMemo}>
-          <DeleteOutlineIcon />
-        </IconButton>
-      </Box>
-      <Box sx={{ padding: "10px 50px", margin:"100px" }}>
-        <Box>
-          <EmojiPicker icon={icon} onChange={onIconChange} />
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+            }}
+          >
+            <EmojiPicker icon={icon} onChange={onIconChange} />
+            <Box
+              sx={{
+                hight: "50%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginLeft: 2,
+              }}
+            >
+              <StarOutlineIcon
+                color="primary"
+                sx={{
+                  display: "block",
+                  "&:hover": {
+                    cursor: "pointer",
+                    opacity: 0.3,
+                  },
+                }}
+              />
+
+              <DeleteOutlineIcon
+                caritant="outlined"
+                color="error"
+                onClick={deleteMemo}
+                sx={{
+                  display: "block",
+                  marginLeft: 2,
+                  "&:hover": {
+                    cursor: "pointer",
+                    opacity: 0.3,
+                  },
+                }}
+              />
+            </Box>
+          </Box>
           <TextField
             onClick={createTitle}
             onChange={updateTitle}
@@ -157,7 +194,10 @@ const Memo = () => {
             sx={{
               ".MuiOutlinedInput-input": { padding: 0 },
               ".MuiOutlinedInput-notchedOutline": { border: "none" },
-              ".MuiOutlinedInput-root": { fontSize: "2rem", fontWeight: 700 },
+              ".MuiOutlinedInput-root": { fontSize: "3rem", fontWeight: 700 },
+              marginY: 2,
+              fontFamily: "Zilla Slab",
+              letterSpacing: "0.1rem",
             }}
           />
           <TextField
@@ -171,6 +211,7 @@ const Memo = () => {
               ".MuiOutlinedInput-input": { padding: 0 },
               ".MuiOutlinedInput-notchedOutline": { border: "none" },
               ".MuiOutlinedInput-root": { fontSize: "1rem", fontWeight: 700 },
+              letterSpacing: "0.05rem",
             }}
           />
         </Box>
