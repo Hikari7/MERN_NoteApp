@@ -16,8 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import memoApi from "../../../api/memoApi";
-import { setMemo } from "../../../redux/features/memoSlice";
+import memoApi from "../../api/memoApi";
+import { setMemo } from "../../redux/features/memoSlice";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -188,7 +188,7 @@ const Sidebar = () => {
                 fontWeight="700"
                 sx={{ fontFamily: "Zilla Slab", letterSpacing: "0.1rem" }}
               >
-                Your memo
+                Your notes
               </Typography>
               <IconButton onClick={() => addMemo()}>
                 <AddIcon fontSize="small" />

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import authUtils from "../../utils/authUtils";
-import Sidebar from "./common/Sidebar";
+import Sidebar from "../common/Sidebar";
 import { setUser } from "../../redux/features/userSlice";
 
 const AppLayout = () => {

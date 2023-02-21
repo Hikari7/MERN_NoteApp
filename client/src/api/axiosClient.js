@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000/api/v1";
+// const BASE_URL = "http://localhost:8000/api/v1";
+const BASE_URL = `${import.meta.env.VITE_SERVER_URL}/api/v1`;
+
+console.log(BASE_URL);
 
 //setItemで取得したlocalStorageの情報(JWT)を取ってくる
 const getToken = () => localStorage.getItem("token");

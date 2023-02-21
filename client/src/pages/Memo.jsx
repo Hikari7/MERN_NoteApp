@@ -17,8 +17,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import memoApi from "../api/memoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
-import EmojiPicker from "../components/layout/common/EmojiPicker";
 import { ToastContainer, toast } from "react-toastify";
+import EmojiPicker from "../components/common/EmojiPicker";
 
 const Memo = () => {
   const { memoId } = useParams();
@@ -157,7 +157,7 @@ const Memo = () => {
       <Box
         sx={{
           display: "flex",
-          width: "78%",
+          width: "64%",
           height: "80vh",
           marginTop: "10vh",
           marginX: "auto",
@@ -224,7 +224,7 @@ const Memo = () => {
                   </DialogActions>
                 </Dialog>
               )}
-    
+
               <DeleteOutlineIcon
                 caritant="outlined"
                 color="error"
