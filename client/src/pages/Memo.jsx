@@ -17,7 +17,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import memoApi from "../api/memoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
-import { ToastContainer, toast } from "react-toastify";
 import EmojiPicker from "../components/common/EmojiPicker";
 
 const Memo = () => {
@@ -96,11 +95,6 @@ const Memo = () => {
     setShowAlert(false);
   };
 
-  // const notify = () => toast.success("Wow so easy!");
-  function notify() {
-    toast.success("Wow so easy!");
-  }
-
   const deleteMemo = async () => {
     try {
       setShowAlert(true);
@@ -120,7 +114,7 @@ const Memo = () => {
       }
       //and then, その最新のメモたちをReduxを用いてグローバル規模で更新する
       dispatch(setMemo(newMemos));
-      notify();
+      // notify();
     } catch (err) {
       alert(err);
     }
