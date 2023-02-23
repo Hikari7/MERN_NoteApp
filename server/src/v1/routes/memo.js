@@ -4,7 +4,7 @@ const tokenHandler = require("../middleware/tokenHandler");
 
 //ここのRoutesが大元になるよ
 
-//APIの作成
+//APIの作成(これがバックエンドのroutingになるので、フロントのAPIで呼び出されている)
 //tokenの中身をチェックしてログインしているのかどうか
 router.post("/", tokenHandler.verifyToken, memoController.create);
 
@@ -21,5 +21,7 @@ router.put("/:memoId", tokenHandler.verifyToken, memoController.update);
 
 //1つのメモの削除API(削除だからdelete関数！)
 router.delete("/:memoId", tokenHandler.verifyToken, memoController.delete);
+
+router.get("/favorites", tokenHandler.verifyToken, memoController.getFavorites);
 
 module.exports = router;

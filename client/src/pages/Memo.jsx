@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
 // import { ToastContainer, toast } from "react-toastify";
 import EmojiPicker from "../components/common/EmojiPicker";
+import { setFavoriteList } from "../redux/features/favoriteSlice";
 
 const Memo = () => {
   const { memoId } = useParams();
@@ -26,13 +27,13 @@ const Memo = () => {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState();
   const [showAlert, setShowAlert] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const memos = useSelector((state) => state.memo.value);
-  const favorites = useSelector((state) => state.favorite.value);
+  const favoriteMemos = useSelector((state) => state.favorite.value);
 
   useEffect(
     () => {
@@ -99,11 +100,6 @@ const Memo = () => {
     setShowAlert(false);
   };
 
-  // const notify = () => toast.success("Wow so easy!");
-  // function notify() {
-  //   toast.success("Wow so easy!");
-  // }
-
   const deleteMemo = async () => {
     try {
       setShowAlert(true);
@@ -158,12 +154,27 @@ const Memo = () => {
   const addFavorite = async () => {
     //ここでfavoriteをaddする機能を作るので、で、全体のstateのstoreを更新する
     //memoのAPIを呼ぶ、
-    //
-    console.log("clicked");
+
+    //memoのスキーマを更新(facoriteオブジェクトのbooleanをtoggleできるようになった)
     try {
-      setFavorite(true);
-      const addFavorite = await memoApi.getFavorite(memoId);
-      console.log(addFavorite);
+      //memoIdのをアップデートする
+      const memo = await memoApi.update(memoId, { favorite: !isFavorite });
+
+      //dbに反映されていない...
+
+      //favoriteMemosはReduxでグローバル管理しているメモ
+      let newFavoriteMemos = [...favoriteMemos];
+      if (isFavorite) {
+        newFavoriteMemos = newFavoriteMemos.filter((e) => e.id !== memoId);
+      } else {
+        //これが消えない。お気に入りに移動してほしい。
+        newFavoriteMemos.unshift(memo);
+      }
+      dispatch(setFavoriteList(newFavoriteMemos));
+      setIsFavorite(!isFavorite);
+      console.log(memo);
+
+      // const addFavorite = await memoApi.getFavorites();
     } catch (err) {
       console.log(err);
     }

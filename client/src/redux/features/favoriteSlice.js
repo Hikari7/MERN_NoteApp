@@ -8,13 +8,13 @@ export const favoriteSlice = createSlice({
   initialState,
   //新しい状態に更新するための仕組み
   reducers: {
-    setFavorite: (state, action) => {
+    setFavoriteList: (state, action) => {
       state.value = action.payload;
     },
   },
 });
 
-export const { setFavorite } = favoriteSlice.actions;
+export const { setFavoriteList } = favoriteSlice.actions;
 export default favoriteSlice.reducer;
 
 //favoriteグローバルで管理していい感じに取り出す
