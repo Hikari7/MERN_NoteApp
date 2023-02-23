@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import memoApi from "../api/memoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import EmojiPicker from "../components/common/EmojiPicker";
 
 const Memo = () => {
@@ -26,10 +26,13 @@ const Memo = () => {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState();
   const [showAlert, setShowAlert] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const memos = useSelector((state) => state.memo.value);
+  const favorites = useSelector((state) => state.favorite.value);
 
   useEffect(
     () => {
@@ -97,9 +100,9 @@ const Memo = () => {
   };
 
   // const notify = () => toast.success("Wow so easy!");
-  function notify() {
-    toast.success("Wow so easy!");
-  }
+  // function notify() {
+  //   toast.success("Wow so easy!");
+  // }
 
   const deleteMemo = async () => {
     try {
@@ -120,7 +123,7 @@ const Memo = () => {
       }
       //and then, その最新のメモたちをReduxを用いてグローバル規模で更新する
       dispatch(setMemo(newMemos));
-      notify();
+      // notify();
     } catch (err) {
       alert(err);
     }
@@ -150,6 +153,20 @@ const Memo = () => {
 
   const createDescription = () => {
     if (description === "Start writing here...") setDescription("");
+  };
+
+  const addFavorite = async () => {
+    //ここでfavoriteをaddする機能を作るので、で、全体のstateのstoreを更新する
+    //memoのAPIを呼ぶ、
+    //
+    console.log("clicked");
+    try {
+      setFavorite(true);
+      const addFavorite = await memoApi.getFavorite(memoId);
+      console.log(addFavorite);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -185,6 +202,7 @@ const Memo = () => {
               }}
             >
               <StarOutlineIcon
+                onClick={addFavorite}
                 color="primary"
                 sx={{
                   display: "block",

@@ -36,11 +36,7 @@ const Home = () => {
         justifyContent: "center",
       }}
     >
-      <LoadingButton
-        variant="outlined"
-        onClick={() => createMemo()}
-        loading={false}
-      >
+      <LoadingButton variant="outlined" onClick={createMemo} loading={false}>
         Create a new memo
       </LoadingButton>
     </Box>

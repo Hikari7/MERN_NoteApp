@@ -20,6 +20,7 @@ import memoApi from "../../api/memoApi";
 import { setMemo } from "../../redux/features/memoSlice";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import MenuIcon from "@mui/icons-material/Menu";
+import FavoriteLists from "./FavoriteLists";
 
 const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -124,7 +125,6 @@ const Sidebar = () => {
           sx={{
             width: 250,
             height: "100vh",
-            // backgroundColor: assets.colors.secondary,
           }}
         >
           <ListItemButton>
@@ -173,6 +173,7 @@ const Sidebar = () => {
               </Typography>
             </Box>
           </ListItemButton>
+          <FavoriteLists />
           <Box sx={{ paddingTop: "10px" }}></Box>
           <ListItemButton>
             <Box
