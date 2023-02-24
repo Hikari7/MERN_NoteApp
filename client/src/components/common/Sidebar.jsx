@@ -30,6 +30,7 @@ const Sidebar = () => {
   //useParams: react-router-domのHooksでURLのパラメーターに含まれているメモIDを取り出すことができる
   const { memoId } = useParams();
   //useSelectorで取り出していく
+  //sliceのnameで取り出せる(user, memoの部分)
   const user = useSelector((state) => state.user.value);
   const memos = useSelector((state) => state.memo.value);
 

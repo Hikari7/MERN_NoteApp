@@ -8,6 +8,7 @@ export const favoriteSlice = createSlice({
   initialState,
   //新しい状態に更新するための仕組み
   reducers: {
+    //setFavoriteListにその新しく更新された状態を保温してあげる
     setFavoriteList: (state, action) => {
       state.value = action.payload;
     },

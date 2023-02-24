@@ -160,25 +160,40 @@ const Memo = () => {
       //memoIdのをアップデートする
       const memo = await memoApi.update(memoId, { favorite: !isFavorite });
 
-      //dbに反映されていない...
-
       //favoriteMemosはReduxでグローバル管理しているメモ
-      let newFavoriteMemos = [...favoriteMemos];
-      if (isFavorite) {
-        newFavoriteMemos = newFavoriteMemos.filter((e) => e.id !== memoId);
-      } else {
-        //これが消えない。お気に入りに移動してほしい。
-        newFavoriteMemos.unshift(memo);
-      }
-      dispatch(setFavoriteList(newFavoriteMemos));
-      setIsFavorite(!isFavorite);
-      console.log(memo);
+      //newFavoriteMemos変数にfavoriteMemosを入れてグローバルで使えるようにする
 
-      // const addFavorite = await memoApi.getFavorites();
+      //favoriteMemos: useSelectorで取り出してきた
+      let newFavoriteMemos = [...favoriteMemos];
+
+      setIsFavorite(!isFavorite); //falseからtrueへ、toggle
+      console.log(isFavorite);
+
+      //toggling the favorite status of the memo by calling the function multiple times.
+      if (isFavorite) {
+        // Remove memo from favorite list
+        const memoIndex = newFavoriteMemos.findIndex((m) => m.id === memo.id);
+        if (memoIndex !== -1) {
+          newFavoriteMemos.splice(memoIndex, 1);
+        }
+        // Update memo in MongoDB with new value of favorite
+        await memoApi.update(memoId, { favorite: false });
+      } else {
+        // Add memo to favorite list
+        newFavoriteMemos.push(memo);
+        // Update memo in MongoDB with new value of flavorite
+        await memoApi.update(memoId, { favorite: true });
+      }
+
+      console.log(newFavoriteMemos);
+      dispatch(setFavoriteList(newFavoriteMemos));
     } catch (err) {
       console.log(err);
     }
   };
+
+  //✅MongoDBが更新されない
+  //✅多分APIの接続がうまく行っていない
 
   return (
     <>
