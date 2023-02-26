@@ -22,12 +22,14 @@ const Login = () => {
     //入力欄の文字列を取得
     const data = new FormData(e.target);
 
+
     //"username"は<TextField/>内で取得したname属性から
     const username = data.get("username").trim();
     const password = data.get("password").trim();
 
     console.log(username);
     console.log(password);
+
 
     let error = false;
 
@@ -60,7 +62,7 @@ const Login = () => {
       console.log("success to login!");
       navigate("/");
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       //axiosの配列からerrorの詳細を取り出す
       const errors = err.data.errors;
       console.log(errors);

@@ -59,15 +59,15 @@ exports.update = async (req, res) => {
       $set: req.body,
     });
 
-    if (favorite !== undefined && memo.favorite !== favorite) {
-      //現在のメモ以外のお気に入りされているメモを探して配列で返す
-      const favorites = await Memo.find({
-        user: memo.user,
-        favorite: true,
-        _id: { $ne: memoId },
-      });
-      console.log(favorites);
-    }
+    // if (favorite !== undefined && memo.favorite !== favorite) {
+    //   //現在のメモ以外のお気に入りされているメモを探して配列で返す
+    //   const favorites = await Memo.find({
+    //     user: memo.user,
+    //     favorite: true,
+    //     _id: { $ne: memoId },
+    //   });
+    //   console.log(favorites);
+    // }
 
     res.status(200).json(updatedMemo);
   } catch (err) {

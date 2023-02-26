@@ -33,6 +33,7 @@ const Sidebar = () => {
   //sliceのnameで取り出せる(user, memoの部分)
   const user = useSelector((state) => state.user.value);
   const memos = useSelector((state) => state.memo.value);
+  // const favorites = useSelector((state) => state.favorite.value);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -174,6 +175,7 @@ const Sidebar = () => {
               </Typography>
             </Box>
           </ListItemButton>
+          {/* お気に入りリスト */}
           <FavoriteLists />
           <Box sx={{ paddingTop: "10px" }}></Box>
           <ListItemButton>

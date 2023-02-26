@@ -177,13 +177,18 @@ const Memo = () => {
           newFavoriteMemos.splice(memoIndex, 1);
         }
         // Update memo in MongoDB with new value of favorite
-        await memoApi.update(memoId, { favorite: false });
+        // await memoApi.update(memoId, { favorite: false });
+        newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
       } else {
         // Add memo to favorite list
         newFavoriteMemos.push(memo);
         // Update memo in MongoDB with new value of flavorite
         await memoApi.update(memoId, { favorite: true });
       }
+
+      // if (isFavorite) {
+      //   newFavoriteMemos = newFavoriteMemos.filter((e) => e.id !== memoId);
+      // }
 
       console.log(newFavoriteMemos);
       dispatch(setFavoriteList(newFavoriteMemos));
@@ -194,6 +199,7 @@ const Memo = () => {
 
   //✅MongoDBが更新されない
   //✅多分APIの接続がうまく行っていない
+  // ✅falseの時に配列に入っている...?
 
   return (
     <>

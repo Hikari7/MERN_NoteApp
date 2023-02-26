@@ -35,6 +35,9 @@ const FavoriteLists = () => {
 
   return (
     <>
+      {favorites.map((favorite) => (
+        <Typography key={favorite._id}>{favorite.title}</Typography>
+      ))}
       {/* <ListItemButton>
         <Typography>{favorites.favorite}</Typography>
       </ListItemButton> */}
