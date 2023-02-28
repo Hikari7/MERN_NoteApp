@@ -159,7 +159,7 @@ const Memo = () => {
     //memoのスキーマを更新(facoriteオブジェクトのbooleanをtoggleできるようになった)
     try {
       //memoIdのをアップデートする
-      const memo = await memoApi.update(memoId, { favorite: !isFavorite });
+      const memo = await memoApi.update(memoId, { favorite: true });
 
       //favoriteMemosはReduxでグローバル管理しているメモ
       //newFavoriteMemos変数にfavoriteMemosを入れてグローバルで使えるようにする
@@ -167,26 +167,26 @@ const Memo = () => {
       //favoriteMemos: useSelectorで取り出してきた
       let newFavoriteMemos = [...favoriteMemos];
 
-      setIsFavorite(!isFavorite); //falseからtrueへ、toggle
-      console.log(isFavorite);
+      setIsFavorite(true); //falseからtrueへ、toggle
 
       //toggling the favorite status of the memo by calling the function multiple times.
-      if (isFavorite) {
-        // Remove memo from favorite list
-        const memoIndex = newFavoriteMemos.findIndex((m) => m.id === memo.id);
-        if (memoIndex !== -1) {
-          newFavoriteMemos.splice(memoIndex, 1);
-        }
-        // Update memo in MongoDB with new value of favorite
-        await memoApi.update(memoId, { favorite: false });
-        newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
-        console.log(newFavoriteMemos);
-      } else {
-        // Add memo to favorite list
-        newFavoriteMemos.push(memo);
-        // Update memo in MongoDB with new value of flavorite
-        await memoApi.update(memoId, { favorite: true });
-      }
+      // if (isFavorite) {
+      //   // Remove memo from favorite list
+      //   const memoIndex = newFavoriteMemos.findIndex((m) => m.id === memo.id);
+      //   if (memoIndex !== -1) {
+      //     newFavoriteMemos.splice(memoIndex, 1);
+      //   }
+      //   // Update memo in MongoDB with new value of favorite
+      //   await memoApi.update(memoId, { favorite: false });
+      //   newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
+      //   console.log(newFavoriteMemos);
+      // } else
+      //  {
+      // Add memo to favorite list
+      newFavoriteMemos.push(memo);
+      // Update memo in MongoDB with new value of flavorite
+      await memoApi.update(memoId, { favorite: true });
+      // }
 
       // if (isFavorite) {
       //   newFavoriteMemos = newFavoriteMemos.filter((e) => e.id !== memoId);
@@ -199,9 +199,23 @@ const Memo = () => {
     }
   };
 
-  //✅MongoDBが更新されない
-  //✅多分APIの接続がうまく行っていない
-  // ✅falseの時に配列に入っている...?
+  const deleteFavorite = async () => {
+    try {
+      const memo = await memoApi.update(memoId, { favorite: false });
+      let newFavoriteMemos = [...favoriteMemos];
+      // if (memoIndex !== -1) {
+      //   newFavoriteMemos.splice(memoIndex, 1);
+      // }
+      // Update memo in MongoDB with new value of favorite
+      await memoApi.update(memoId, { favorite: false });
+      newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
+      //  console.log(newFavoriteMemos);
+      setIsFavorite(false);
+      dispatch(setFavoriteList(newFavoriteMemos));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -237,7 +251,7 @@ const Memo = () => {
             >
               {isFavorite ? (
                 <StarOutlineIcon
-                  onClick={addFavorite}
+                  onClick={deleteFavorite}
                   color="warning"
                   sx={{
                     display: "block",
