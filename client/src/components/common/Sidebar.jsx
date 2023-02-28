@@ -60,7 +60,7 @@ const Sidebar = () => {
         dispatch(setMemo(res));
         console.log(res);
       } catch (err) {
-        alert(err);
+        alert(err.message);
       }
     };
     getMemos();

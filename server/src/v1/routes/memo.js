@@ -12,6 +12,7 @@ router.post("/", tokenHandler.verifyToken, memoController.create);
 // define the "/" page route
 router.get("/", tokenHandler.verifyToken, memoController.getAll);
 
+router.get("/favorites", tokenHandler.verifyToken, memoController.getFavorites);
 //1つのメモの取り出しAPI
 // define the "/" page route
 router.get("/:memoId", tokenHandler.verifyToken, memoController.getOne);
@@ -22,6 +23,5 @@ router.put("/:memoId", tokenHandler.verifyToken, memoController.update);
 //1つのメモの削除API(削除だからdelete関数！)
 router.delete("/:memoId", tokenHandler.verifyToken, memoController.delete);
 
-router.get("/favorites", tokenHandler.verifyToken, memoController.getFavorites);
 
 module.exports = router;

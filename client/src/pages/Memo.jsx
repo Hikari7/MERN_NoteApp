@@ -46,6 +46,7 @@ const Memo = () => {
           setTitle(res.title);
           setDescription(res.description);
           setIcon(res.icon);
+          setIsFavorite(res.favorite);
         } catch (err) {
           alert(err);
         }
@@ -177,8 +178,9 @@ const Memo = () => {
           newFavoriteMemos.splice(memoIndex, 1);
         }
         // Update memo in MongoDB with new value of favorite
-        // await memoApi.update(memoId, { favorite: false });
+        await memoApi.update(memoId, { favorite: false });
         newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
+        console.log(newFavoriteMemos);
       } else {
         // Add memo to favorite list
         newFavoriteMemos.push(memo);
@@ -233,17 +235,32 @@ const Memo = () => {
                 marginLeft: 2,
               }}
             >
-              <StarOutlineIcon
-                onClick={addFavorite}
-                color="primary"
-                sx={{
-                  display: "block",
-                  "&:hover": {
-                    cursor: "pointer",
-                    opacity: 0.3,
-                  },
-                }}
-              />
+              {isFavorite ? (
+                <StarOutlineIcon
+                  onClick={addFavorite}
+                  color="warning"
+                  sx={{
+                    display: "block",
+                    "&:hover": {
+                      cursor: "pointer",
+                      opacity: 0.3,
+                    },
+                  }}
+                />
+              ) : (
+                <StarOutlineIcon
+                  onClick={addFavorite}
+                  color="primary"
+                  sx={{
+                    display: "block",
+                    "&:hover": {
+                      cursor: "pointer",
+                      opacity: 0.3,
+                    },
+                  }}
+                />
+              )}
+
               {showAlert && (
                 <Dialog
                   open={showAlert}

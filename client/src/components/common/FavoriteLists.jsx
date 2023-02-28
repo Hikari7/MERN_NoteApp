@@ -2,7 +2,8 @@ import { ListItemButton, Typography } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import memoApi from "../../api/memoApi";
 import { setFavoriteList } from "../../redux/features/favoriteSlice";
 
@@ -35,12 +36,20 @@ const FavoriteLists = () => {
 
   return (
     <>
-      {favorites.map((favorite) => (
-        <Typography key={favorite._id}>{favorite.title}</Typography>
+      {favorites.map((favorite, index) => (
+        <ListItemButton
+          sx={{ pl: "20px" }}
+          compoenet={Link}
+          to={`/memo/${favorite._id}`}
+          key={favorite._id}
+          //選ばれているのがハイライトされる
+        >
+          <Typography key={favorite._id}>
+            {favorite.icon}
+            {favorite.title}
+          </Typography>
+        </ListItemButton>
       ))}
-      {/* <ListItemButton>
-        <Typography>{favorites.favorite}</Typography>
-      </ListItemButton> */}
     </>
   );
 };
