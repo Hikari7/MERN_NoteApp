@@ -45,7 +45,7 @@ exports.getOne = async (req, res) => {
 //メモ編集API
 exports.update = async (req, res) => {
   const { memoId } = req.params;
-  const { title, description } = req.body;
+  const { title, description, favorite } = req.body;
 
   try {
     if (title === "") req.body.title = "untitled";
@@ -58,6 +58,17 @@ exports.update = async (req, res) => {
       //$set: 色んなプロパティを含めるよ〜
       $set: req.body,
     });
+
+    // if (favorite !== undefined && memo.favorite !== favorite) {
+    //   //現在のメモ以外のお気に入りされているメモを探して配列で返す
+    //   const favorites = await Memo.find({
+    //     user: memo.user,
+    //     favorite: true,
+    //     _id: { $ne: memoId },
+    //   });
+    //   console.log(favorites);
+    // }
+
     res.status(200).json(updatedMemo);
   } catch (err) {
     res.status(500).json(err);
@@ -72,6 +83,19 @@ exports.delete = async (req, res) => {
     });
     console.log(deletedMemo);
     res.status(200).json("successful to delete the memo");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+exports.getFavorites = async (req, res) => {
+  try {
+    //favoriteがtrueなものをgetする
+    const favorites = await Memo.find({
+      user: req.user._id,
+      favorite: true,
+    });
+    res.status(200).json(favorites);
   } catch (err) {
     res.status(500).json(err);
   }

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//これはサーバーのURL(API)で、フロントで使うためにaxios使って取っていくよ〜
 // const BASE_URL = "http://localhost:8000/api/v1";
 const BASE_URL = `${import.meta.env.VITE_SERVER_URL}/api/v1`;
 

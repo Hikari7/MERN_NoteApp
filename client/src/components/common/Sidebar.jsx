@@ -20,6 +20,7 @@ import memoApi from "../../api/memoApi";
 import { setMemo } from "../../redux/features/memoSlice";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import MenuIcon from "@mui/icons-material/Menu";
+import FavoriteLists from "./FavoriteLists";
 
 const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,8 +30,10 @@ const Sidebar = () => {
   //useParams: react-router-domのHooksでURLのパラメーターに含まれているメモIDを取り出すことができる
   const { memoId } = useParams();
   //useSelectorで取り出していく
+  //sliceのnameで取り出せる(user, memoの部分)
   const user = useSelector((state) => state.user.value);
   const memos = useSelector((state) => state.memo.value);
+  // const favorites = useSelector((state) => state.favorite.value);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -57,7 +60,7 @@ const Sidebar = () => {
         dispatch(setMemo(res));
         console.log(res);
       } catch (err) {
-        alert(err);
+        alert(err.message);
       }
     };
     getMemos();
@@ -124,7 +127,6 @@ const Sidebar = () => {
           sx={{
             width: 250,
             height: "100vh",
-            // backgroundColor: assets.colors.secondary,
           }}
         >
           <ListItemButton>
@@ -173,6 +175,8 @@ const Sidebar = () => {
               </Typography>
             </Box>
           </ListItemButton>
+          {/* お気に入りリスト */}
+          <FavoriteLists />
           <Box sx={{ paddingTop: "10px" }}></Box>
           <ListItemButton>
             <Box

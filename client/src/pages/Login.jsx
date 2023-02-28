@@ -60,11 +60,11 @@ const Login = () => {
       console.log("success to login!");
       navigate("/");
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       //axiosの配列からerrorの詳細を取り出す
-      const errors = err.data.errors;
-      console.log(errors);
-      errors.forEach((err) => {
+      const errors = err?.data.errors;
+      // console.log(errors);
+      errors?.forEach((err) => {
         if (err.param === "username") {
           setUsernameErrText(err.msg);
         }

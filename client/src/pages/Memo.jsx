@@ -18,6 +18,7 @@ import memoApi from "../api/memoApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMemo } from "../redux/features/memoSlice";
 import EmojiPicker from "../components/common/EmojiPicker";
+import { setFavoriteList } from "../redux/features/favoriteSlice";
 
 const Memo = () => {
   const { memoId } = useParams();
@@ -25,10 +26,13 @@ const Memo = () => {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState();
   const [showAlert, setShowAlert] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const memos = useSelector((state) => state.memo.value);
+  const favoriteMemos = useSelector((state) => state.favorite.value);
 
   useEffect(
     () => {
@@ -41,6 +45,7 @@ const Memo = () => {
           setTitle(res.title);
           setDescription(res.description);
           setIcon(res.icon);
+          setIsFavorite(res.favorite);
         } catch (err) {
           alert(err);
         }
@@ -146,6 +151,71 @@ const Memo = () => {
     if (description === "Start writing here...") setDescription("");
   };
 
+  const addFavorite = async () => {
+    //ここでfavoriteをaddする機能を作るので、で、全体のstateのstoreを更新する
+    //memoのAPIを呼ぶ、
+
+    //memoのスキーマを更新(facoriteオブジェクトのbooleanをtoggleできるようになった)
+    try {
+      //memoIdのをアップデートする
+      const memo = await memoApi.update(memoId, { favorite: true });
+
+      //favoriteMemosはReduxでグローバル管理しているメモ
+      //newFavoriteMemos変数にfavoriteMemosを入れてグローバルで使えるようにする
+
+      //favoriteMemos: useSelectorで取り出してきた
+      let newFavoriteMemos = [...favoriteMemos];
+
+      setIsFavorite(true); //falseからtrueへ、toggle
+
+      //toggling the favorite status of the memo by calling the function multiple times.
+      // if (isFavorite) {
+      //   // Remove memo from favorite list
+      //   const memoIndex = newFavoriteMemos.findIndex((m) => m.id === memo.id);
+      //   if (memoIndex !== -1) {
+      //     newFavoriteMemos.splice(memoIndex, 1);
+      //   }
+      //   // Update memo in MongoDB with new value of favorite
+      //   await memoApi.update(memoId, { favorite: false });
+      //   newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
+      //   console.log(newFavoriteMemos);
+      // } else
+      //  {
+      // Add memo to favorite list
+      newFavoriteMemos.push(memo);
+      // Update memo in MongoDB with new value of flavorite
+      await memoApi.update(memoId, { favorite: true });
+      // }
+
+      // if (isFavorite) {
+      //   newFavoriteMemos = newFavoriteMemos.filter((e) => e.id !== memoId);
+      // }
+
+      console.log(newFavoriteMemos);
+      dispatch(setFavoriteList(newFavoriteMemos));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteFavorite = async () => {
+    try {
+      const memo = await memoApi.update(memoId, { favorite: false });
+      let newFavoriteMemos = [...favoriteMemos];
+      // if (memoIndex !== -1) {
+      //   newFavoriteMemos.splice(memoIndex, 1);
+      // }
+      // Update memo in MongoDB with new value of favorite
+      await memoApi.update(memoId, { favorite: false });
+      newFavoriteMemos = newFavoriteMemos.filter((m) => m.id !== memo.id);
+      //  console.log(newFavoriteMemos);
+      setIsFavorite(false);
+      dispatch(setFavoriteList(newFavoriteMemos));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <Box
@@ -178,16 +248,32 @@ const Memo = () => {
                 marginLeft: 2,
               }}
             >
-              <StarOutlineIcon
-                color="primary"
-                sx={{
-                  display: "block",
-                  "&:hover": {
-                    cursor: "pointer",
-                    opacity: 0.3,
-                  },
-                }}
-              />
+              {isFavorite ? (
+                <StarOutlineIcon
+                  onClick={deleteFavorite}
+                  color="warning"
+                  sx={{
+                    display: "block",
+                    "&:hover": {
+                      cursor: "pointer",
+                      opacity: 0.3,
+                    },
+                  }}
+                />
+              ) : (
+                <StarOutlineIcon
+                  onClick={addFavorite}
+                  color="primary"
+                  sx={{
+                    display: "block",
+                    "&:hover": {
+                      cursor: "pointer",
+                      opacity: 0.3,
+                    },
+                  }}
+                />
+              )}
+
               {showAlert && (
                 <Dialog
                   open={showAlert}
