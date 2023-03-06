@@ -2,18 +2,15 @@
 
 A note taking app with MERN stack.
 
-## Built With
+## Demo Link
 
-- `React`
-- `React Router`
-- `Vite`
-- `Material-UI`
-- `Node.js`
-- `Express.js`
-- `Mongo DB`
-- `Mongoose`
-- `Vercel`
-- `render`
+- [MERN NoteApp]("https://mern-note-app-client.vercel.app/")
+
+![The home image](/homepage.png)
+![The login image](/slidepage.png)
+![The slidebar image](/login.png)
+
+
 
 ## Features
 
@@ -44,6 +41,17 @@ In another Terminal window,
 
 This will open up `localhost:5173` in your web browser.
 
-## Status
+## Built With
 
-This app is still in progress to be updated! Planning to add favorite function there
+- `React`
+- `React Router`
+- `Vite`
+- `Material-UI`
+- `Node.js`
+- `Express.js`
+- `Mongo DB`
+- `Mongoose`
+- `Vercel`
+- `render`
+
+
