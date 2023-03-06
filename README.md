@@ -4,13 +4,11 @@ A note taking app with MERN stack.
 
 ## Demo Link
 
-- [MERN NoteApp]("https://mern-note-app-client.vercel.app/")
+- [MERN NoteApp](https://mern-note-app-client.vercel.app/)
 
 ![The home image](/homepage.png)
 ![The login image](/slidepage.png)
 ![The slidebar image](/login.png)
-
-
 
 ## Features
 
@@ -53,5 +51,3 @@ This will open up `localhost:5173` in your web browser.
 - `Mongoose`
 - `Vercel`
 - `render`
-
-
