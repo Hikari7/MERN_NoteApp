@@ -17,18 +17,16 @@ const EmojiPicker = (props) => {
   };
 
   const selectEmoji = (e) => {
-    //console.log(e);
     const emojiCode = e.unified.split("-");
-    // console.log(emojiCode);
+
     let codesArray = [];
     emojiCode.forEach((el) => codesArray.push("0x" + el));
-    // console.log(codesArray);
-    //codeから絵文字に変換する
+
     const emoji = String.fromCodePoint(...codesArray);
-    //emojiを取り出すことに成功！
+
     console.log(emoji);
     setIsShowPicker(false);
-    //onChangeの引数にこの選択されたemojiを入れることで、親のMemoのnewIconとして引き渡される
+
     props.onChange(emoji);
   };
 
@@ -40,7 +38,6 @@ const EmojiPicker = (props) => {
         sx={{ cursor: "pointer" }}
         onClick={showPicker}
       >
-        {/* {props.icon} */}
         {selectedEmoji}
       </Typography>
       <Box

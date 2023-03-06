@@ -8,8 +8,8 @@ A note taking app with MERN stack.
 - `React Router`
 - `Vite`
 - `Material-UI`
-- `Node`
-- `Express`
+- `Node.js`
+- `Express.js`
 - `Mongo DB`
 - `Mongoose`
 - `Vercel`
@@ -28,23 +28,21 @@ There are 2 main folders:
 
 `client`: The starting point of the React application.
 
-
 To get started:
 
 1. Clone the repository
 2. Navigate to the folder cd `MERN_NoteApp`
 3. Navigate to the `server` folder
-    - Run `npm install`
-    - Run `npm start`
+   - Run `npm install`
+   - Run `npm start`
 
 In another Terminal window,
 
 4. Navigate to the `client` folder
-    -  Run `npm install`
-    - Run `npm dev`
+   - Run `npm install`
+   - Run `npm dev`
 
 This will open up `localhost:5173` in your web browser.
-
 
 ## Status
 

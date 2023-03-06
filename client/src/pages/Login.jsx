@@ -19,15 +19,10 @@ const Login = () => {
     setUsernameErrText("");
     setPasswordErrText("");
 
-    //入力欄の文字列を取得
     const data = new FormData(e.target);
 
-    //"username"は<TextField/>内で取得したname属性から
     const username = data.get("username").trim();
     const password = data.get("password").trim();
-
-    console.log(username);
-    console.log(password);
 
     let error = false;
 
@@ -40,16 +35,12 @@ const Login = () => {
       setPasswordErrText("Please enter a password");
     }
 
-    //errorだったら以下の処理はせずに返しちゃう
     if (error) return;
 
     setLoading(true);
 
-    //新規登録APIを叩く
     try {
-      //suthApiのparamsをここでいれる(bodyに挿入される→serverに渡されて暗号化されたり)
       const res = await authApi.login({
-        //ここがbackendのreq.bodyに相当する
         username,
         password,
       });
@@ -61,9 +52,9 @@ const Login = () => {
       navigate("/");
     } catch (err) {
       console.log(err);
-      //axiosの配列からerrorの詳細を取り出す
+
       const errors = err?.data.errors;
-      // console.log(errors);
+
       errors?.forEach((err) => {
         if (err.param === "username") {
           setUsernameErrText(err.msg);

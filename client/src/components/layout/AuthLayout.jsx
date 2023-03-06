@@ -5,21 +5,17 @@ import { Outlet, useNavigate } from "react-router-dom";
 import noteIcon from "../../assets/images/noteIcon.png";
 import authUtils from "../../utils/authUtils";
 
-//tokenをチェックするロジックを組む
 const AuthLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    //JWTを持っているのか確認する
     const checkAuth = async () => {
-      //JWT認証チェック
       const isAuth = await authUtils.isAuthenticated();
       if (isAuth) {
         navigate("/");
       }
     };
     checkAuth();
-    //page遷移するたびに発火するようにする
   }, [navigate]);
   return (
     <>
@@ -45,8 +41,6 @@ const AuthLayout = () => {
             style={{ width: 100, height: 100, marginBottom: 5 }}
           />
         </Box>
-
-        {/* 認証関係のコンポーネントを全て含んでいる共通のコンポーネント */}
         <Outlet />
       </Container>
     </>

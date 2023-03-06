@@ -20,7 +20,6 @@ function App() {
             <Route path="register" element={<Register />} />
           </Route>
           <Route path="/" element={<AppLayout />}>
-            {/* 親のルートと同じ意味になる　 */}
             <Route index element={<Home />} />
             <Route path="memo" element={<Home />} />
 

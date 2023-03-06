@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 
-//schemaの作成
-
 const memoSchema = new mongoose.Schema({
-  //誰がそのメモを作ったか判断するために、userSchemaと連携する作業をしていく
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    //refを設定して名前を指定することで、このschemaのオブジェクトIDがその名前(今回はUser)のオブジェクトIDになる
+
     ref: "User",
     required: true,
   },

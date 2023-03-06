@@ -19,10 +19,8 @@ const Register = () => {
     setPasswordErrText("");
     setConfirmErrText("");
 
-    //入力欄の文字列を取得
     const data = new FormData(e.target);
 
-    //"username"は<TextField/>内で取得したname属性から
     const username = data.get("username").trim();
     const password = data.get("password").trim();
     const confirmPassword = data.get("confirmPassword").trim();
@@ -50,17 +48,12 @@ const Register = () => {
       setConfirmErrText("password doesn't match");
     }
 
-    //errorだったら以下の処理はせずに返しちゃう
     if (error) return;
 
     setLoading(true);
 
-    //新規登録APIを叩く(ここでPOSTしてバックエンドのAPIにPOSTしている)
     try {
-      //suthApiのparamsをここでいれる(bodyに挿入される→serverに渡されて暗号化されたり)
       const res = await authApi.register({
-        //ここがbackendのreq.bodyに相当する
-
         username,
         password,
         confirmPassword,
@@ -68,15 +61,10 @@ const Register = () => {
 
       setLoading(false);
 
-      //レスポンスとして帰ってきたトークン属性をローカルストレージに保存
-      //サーバーのresの中のtokenを入れる
-
       localStorage.setItem("token", res.token);
       console.log("success!");
       navigate("/");
     } catch (err) {
-      // console.log(err);
-      //axiosの配列からerrorの詳細を取り出す
       const errors = err.data.errors;
       console.log(errors);
       errors.forEach((err) => {
@@ -129,7 +117,6 @@ const Register = () => {
           required
           helperText={confirmErrText}
           error={confirmErrText !== ""}
-          //loading中はdisableにする
           disabled={loading}
         />
         <LoadingButton

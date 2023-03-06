@@ -10,19 +10,17 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
 
   const createMemo = async () => {
-    //API叩くときは基本try catch文
     try {
       setLoading(true);
-      //memoを作る関数create()を呼ぶ
+
       const res = await memoApi.create();
       console.log(res);
-      //memo固有のIDに遷移してあげる
+
       navigate(`/memo/${res._id}`);
     } catch (err) {
       console.log("err?");
       alert(err);
     } finally {
-      //finally: tryに行ってもcatchに行っても実行される
       setLoading(false);
     }
   };

@@ -11,7 +11,6 @@ import {
 import { Box } from "@mui/system";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
-// import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -26,14 +25,9 @@ const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //固有のmemoを取り出していく
-  //useParams: react-router-domのHooksでURLのパラメーターに含まれているメモIDを取り出すことができる
   const { memoId } = useParams();
-  //useSelectorで取り出していく
-  //sliceのnameで取り出せる(user, memoの部分)
   const user = useSelector((state) => state.user.value);
   const memos = useSelector((state) => state.memo.value);
-  // const favorites = useSelector((state) => state.favorite.value);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -45,18 +39,15 @@ const Sidebar = () => {
   };
 
   const logout = () => {
-    //tokenのkeyを取り外す必要がある
     localStorage.removeItem("token");
     navigate("/login");
   };
 
   useEffect(() => {
-    //asyncを取得するために関数を作る
     const getMemos = async () => {
       try {
-        //memoApiからメモをゲットするAPIを呼ぶ
         const res = await memoApi.getAll();
-        //メモもグローバルで保存したいのでReduxで管理していく
+
         dispatch(setMemo(res));
         console.log(res);
       } catch (err) {
@@ -64,33 +55,27 @@ const Sidebar = () => {
       }
     };
     getMemos();
-
-    //dispatchが発火すると同時にuseEffectも発火する(更新がされる->memoが作られる度)
   }, [dispatch]);
 
   useEffect(() => {
-    //findIndex:引数に指定したコールバック関数の中で定義した条件式を満たす要素を配列の先頭から検索する
-    //クリックしたものがmemoIdを等しければ、それをtrueにしてactiveIndexの中に格納している
     const activeIndex = memos.findIndex((e) => e._id === memoId);
     setActiveIndex(activeIndex);
   }, []);
 
   const addMemo = async () => {
     try {
-      //メモを作成
       const res = await memoApi.create();
-      //resを今までのmemoにさらに追加していく
+
       const newMemos = [res, ...memos];
-      //新しいmemosをグローバルで管理していく
+
       dispatch(setMemo(newMemos));
-      //で、追加したメモにリダイレクトする
+
       navigate(`memo/${res._id}`);
     } catch (err) {
       alert(err);
     }
   };
 
-  // console.log(user);
   return (
     <>
       <AppBar position="absolute" sx={{ height: "8vh" }}>
@@ -175,7 +160,6 @@ const Sidebar = () => {
               </Typography>
             </Box>
           </ListItemButton>
-          {/* お気に入りリスト */}
           <FavoriteLists />
           <Box sx={{ paddingTop: "10px" }}></Box>
           <ListItemButton>
@@ -206,12 +190,7 @@ const Sidebar = () => {
               compoenet={Link}
               to={`/memo/${item._id}`}
               key={item._id}
-              //選ばれているのがハイライトされる
               selected={index === activeIndex}
-              // selected={activeIndex}
-              // onChange={() => {
-              //   setActiveIndex(!activeIndex);
-              // }}
             >
               <Typography>
                 {item.icon} {item.title}
