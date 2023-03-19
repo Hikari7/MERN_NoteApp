@@ -1,6 +1,6 @@
 # Note taking App
 
-A note taking app with MERN stack.
+A note-taking application using the MERN stack.
 
 ## Demo Link
 
@@ -12,8 +12,7 @@ A note taking app with MERN stack.
 
 ## Features
 
-- MERN stack application
-- Impremented authentication system with JWT
+Developed a MERN stack application that includes features for creating, editing, and deleting notes, as well as liking posts. Implemented a secure authentication system using JWT.
 
 ## Setup
 
@@ -43,6 +42,8 @@ This will open up `localhost:5173` in your web browser.
 
 - `React`
 - `React Router`
+- `Redux`
+- `Redux Toolkit`
 - `Vite`
 - `Material-UI`
 - `Node.js`
